@@ -20,7 +20,7 @@ function startIntro(wallet) {
       
       let newWallet = wallet -= wager
       
-      alert(`You now have a wallet of \$${newWallet}`)
+      alert(`You now have a wallet of \$${newWallet}.`)
       
       let start = prompt(`Your current wager is \$${wager}. When you're ready, type 'Start'!\n===========================================\n                                   0 0 0\n                                   0 0 0 \n                                   0 0 0\n===========================================`);
       if (start.toLowerCase() == 'start'){
@@ -31,17 +31,17 @@ function startIntro(wallet) {
     }
       let lineOne = []
       lineOne.push(getRandomInt(7))
-      lineOne.push(getRandomInt(7))
+      lineOne.push(1)
       lineOne.push(getRandomInt(7))
       resultOne = alert(`Rolling!\n${lineOne[0]} ${lineOne[1]} ${lineOne[2]}`)
       let lineTwo = []
       lineTwo.push(getRandomInt(7))
-      lineTwo.push(getRandomInt(7))
+      lineTwo.push(1)
       lineTwo.push(getRandomInt(7))
       resultTwo = alert(`Rolling!\n${lineOne[0]} ${lineOne[1]} ${lineOne[2]}\n${lineTwo[0]} ${lineTwo[1]} ${lineTwo[2]}`)
       let lineThree = []
       lineThree.push(getRandomInt(7))
-      lineThree.push(getRandomInt(7))
+      lineThree.push(1)
       lineThree.push(getRandomInt(7))
       resultThree = alert(`Rolling!\n${lineOne[0]} ${lineOne[1]} ${lineOne[2]}\n${lineTwo[0]} ${lineTwo[1]} ${lineTwo[2]}\n${lineThree[0]} ${lineThree[1]} ${lineThree[2]}`)
       
@@ -65,12 +65,22 @@ function startIntro(wallet) {
          win += 1
        }
       
-      if (win > 0) {
-        alert("Yeowza! You've beaten the house!")
-      } else {
-        alert('FAILURE')
-      }
-      
+      if ((lineOne[0] === lineTwo[0]) && (lineOne[0] === lineThree[0])) 
+       {
+         winnings.push(lineOne[0]);
+         win += 1
+       }
+      if ((lineOne[1] == lineTwo[1]) && (lineTwo[1] == lineThree[1]))
+       {
+         winnings.push(lineTwo[0]);
+         win += 1
+       }
+      if ((lineThree[2] == lineOne[2]) && (lineThree[2] == lineTwo[2]))
+       {
+         winnings.push(lineThree[0]);
+         win += 1
+       }
+    
       function getTotal(list) {
         let i = 0
         let sum = 0
@@ -79,12 +89,19 @@ function startIntro(wallet) {
         i++ }
         return sum
     }
-      
+    
       let total = getTotal(winnings)
-      
+    
       let prize = wager * total
       
       newWallet += prize
+    
+      if (win > 0) {
+        alert("Yeowza! You've beaten the house!")
+        alert(`You've won \$${prize}!`)
+      } else {
+        alert('FAILURE')
+      }
       
       alert(`Your wallet is currently holding \$${newWallet}.`)
       
@@ -92,8 +109,15 @@ function startIntro(wallet) {
         
       if (next === 'no') {
           alert(`Thanks for playing! You cashed out with \$${newWallet}.`)
+          alert('END')
         } else {
-          this.startSlots(newWallet)
+          if (newWallet === 0) {
+             alert('There are no more games for you. You have no money.')
+             alert('END')
+          } else {
+              alert("Okay! Let's play!")
+              this.startSlots(newWallet)
+          }
         }
     }
     
